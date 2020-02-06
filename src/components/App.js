@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import { render } from 'react-dom';
-import store, {addRow, selectedColor, drawingColor} from '../store';
+import React, { Component } from "react";
+import store, { addRow, selectedColor, drawingColor } from "../store";
+import Table from "./Table";
 
 export default class App extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ export default class App extends Component {
     // execute the function inside subscribe every time store state updates.
     this.unsubscribe = store.subscribe(() => {
       this.setState(store.getState());
-    })
+    });
   }
 
   componentWillUnmount() {
@@ -39,52 +39,31 @@ export default class App extends Component {
     store.dispatch(drawingColor(rowIdx, columnIdx));
   }
 
-
   render() {
     const grid = this.state.grid;
 
     return (
-        <div id="pixelate">
-          <h1>Pixelate</h1>
-          <div>
-            <button onClick={this.handleSubmit} id='add-row'>Add a row</button>
-            <select onChange={this.handleChange}>
-              <option value="red">Red</option>
-              <option value="orange">Orange</option>
-              <option value="yellow">Yellow</option>
-              <option value="green">Green</option>
-              <option value="blue">Blue</option>
-              <option value="indigo">Indigo</option>
-              <option value="violet">Violet</option>
-              <option value="black">Black</option>
-              <option value="white">White</option>
-              <option value="brown">Brown</option>
-            </select>
+      <div id="pixelate">
+        <h1>Pixelate</h1>
+        <div>
+          <button onClick={this.handleSubmit} id="add-row">
+            Add a row
+          </button>
+          <select onChange={this.handleChange}>
+            <option value="red">Red</option>
+            <option value="orange">Orange</option>
+            <option value="yellow">Yellow</option>
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+            <option value="indigo">Indigo</option>
+            <option value="violet">Violet</option>
+            <option value="black">Black</option>
+            <option value="white">White</option>
+            <option value="brown">Brown</option>
+          </select>
         </div>
-        <table>
-          <tbody>
-            {
-              grid.map((row, rowIdx) => {
-                return (
-                <tr key={rowIdx}>{
-                  row.map((color, cellIdx) => {
-                    return (
-                      <td onClick={this.handleDrawing} key={cellIdx} className={color}></td>
-                    )
-                  })
-                }</tr>
-                )
-              })
-            }
-          </tbody>
-        </table>
+        <Table grid={this.state.grid} handleDrawing={this.handleDrawing} />
       </div>
-    )
+    );
   }
 }
-
-
-
-
-
-
